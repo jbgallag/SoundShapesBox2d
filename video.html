@@ -7,7 +7,7 @@
                 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
                 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
                 <script type="text/javascript" src="adapter.js"></script>
-                <script type="text/javascript" src="box2dweb/Box2dWeb-2.1.a.3.js"></script>
+                <script type="text/javascript" src="Box2dWeb-2.1.a.3.js"></script>
                 <script type="text/javascript" src="Box2dPhysics.js"></script>
                 <script type="text/javascript" src="Box2dBody.js"></script>
            
@@ -60,13 +60,13 @@
                         //    new Body(physics, { image: img, x: 13, y: 8 });
                         //    new Body(physics, { color: "blue", x: 8, y: 3 });
                         //new Body(physics, { color: "gray", shape: "circle", radius: 15, x: 110, y: 25 });
-                        new Body(physics, { color: "red", shape: "circle", radius: 15, x: 150, y: 25 });
+                        new Body(physics, { color: "red", shape: "circle", radius: 15, impulseActive: false, x: 150, y: 25 });
+                        new Body(physics, { color: "blue", shape: "circle", radius: 15, impulseActive: false, x: 150, y: 25 });
+                        new Body(physics, { color: "green", shape: "circle", radius: 15, impulseActive: false, x: 150, y: 25 });
                         //new Body(physics, { color: "blue", shape: "circle", radius: 15, x: 190, y: 25 });
                         
-                        physics.click(function(body) {
-                                body.ApplyImpulse({ x: 130000, y: -130000 }, body.GetWorldCenter());
-                                });
-                                
+                        
+                        physics.collision(); 
                         firstStart = false;
                         console.log("Start Physics!");
                     }

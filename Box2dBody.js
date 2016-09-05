@@ -1,5 +1,6 @@
 var Body = window.Body = function (physics, details) {
-    this.details = details = details || {};
+    this.details = details;
+    
     
     // Create the definition
     this.definition = new b2BodyDef();

@@ -109,7 +109,7 @@ Physics.prototype.HitCenterOfMass = function(imgData,oldData,body) {
     var xSqr = 0;
     var ySqr = 0;
     var diffMag = 0;
-    if(body.details.type != "static") {
+    if(body.details.type != "static" && !body.details.impulseActive) {
         var yStart = Math.round(body.body.GetWorldCenter().y*2 - body.details.radius)
         var yEnd  = Math.round(body.body.GetWorldCenter().y*2 + body.details.radius);
         var xStart = Math.round(body.body.GetWorldCenter().x*2 - body.details.radius);
@@ -128,7 +128,7 @@ Physics.prototype.HitCenterOfMass = function(imgData,oldData,body) {
             }
         }
         
-        if(massSumX > 0 && !isNaN(massSumX) && massSumX > 15000) {
+        if(massSumX > 0 && !isNaN(massSumX) && massSumX > 5000) {
             xCenter = densSumX/massSumX;
             yCenter = densSumY/massSumY;
         
@@ -144,6 +144,7 @@ Physics.prototype.HitCenterOfMass = function(imgData,oldData,body) {
             
             if(!isNaN(xNorm) && !isNaN(yNorm)) {
                 body.body.ApplyImpulse({ x: (xNorm*500000), y: (yNorm*500000)}, body.body.GetWorldCenter());
+                body.details.impulseActive = true;
             }
         }
     }
@@ -159,4 +160,18 @@ Physics.prototype.isIn = function(x,y,body) {
     } else {
         return false;
     }
-}
+};
+
+Physics.prototype.collision = function () {
+    this.listener = new Box2D.Dynamics.b2ContactListener();
+   
+    this.listener.BeginContact = function(contact) {
+        var body = contact.GetFixtureB().GetBody().GetUserData();
+        if(body.details.impulseActive) {
+            body.details.impulseActive = false;
+        }
+    }
+    this.world.SetContactListener(this.listener);
+};
+
+
